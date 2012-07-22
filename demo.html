@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<!--
+	A JQUERY GAME LOOP AND GAME ENGINE
+	by Richard Dancsi
+	- - - - - - - - - - - - - - - - - - - 
+	DEMO & INSTALL
+	http://wimagguc.hu/projects/jquery-game-loop-and-game-engine/
+	- - - - - - - - - - - - - - - - - - - 
+	wimagguc.hu
+	twitter.com/wmguk
+-->
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>jQuery GameLoop and Super Lightweight HTML5 Game Engine by Wimagguc</title>
+	<link rel="stylesheet" type="text/css" href="./css/demo.css" />
+
+	<!-- IE needs a canvas handler JS for the canvas -->
+    <!--[if IE]><script type="text/javascript" src="../excanvas.js"></script><![endif]-->
+
+    <script type="text/javascript" src="./js/jquery.min-1.4.2.js"></script>
+
+    <script type="text/javascript" src="./js/wimagguc-gameloop.js"></script>
+    <script type="text/javascript" src="./js/wimagguc-pacman-entities.js"></script>
+    <script type="text/javascript" src="./js/wimagguc-world-demo-canvashandler.js"></script>
+    <script type="text/javascript" src="./js/wimagguc-world-demo.js"></script>
+    <script type="text/javascript">
+		// To initialize the game you need:
+		// - The gameLoop object that controls the game
+		// - Your object the contains all the information of the world
+		var gameLoop  = new Wimagguc.GameLoop(25);
+		var demoWorld = new Wimagguc.DemoWorld();
+
+	    $( document).ready( function() {
+			// Start the gameLoop; it will create an ID when it starts for the first time
+			var gameLoopID = gameLoop.start();
+
+			// Initialize the world with the ID from the gameLoop so that you can use multiple worlds with the same loop on the same page
+			demoWorld.init('demoWorldContainer', gameLoopID, 25);
+
+			// Add event handlers for the buttons to start and stop the game loop
+			$('#stopButton').bind('click',  gameLoop.stop);
+			$('#startButton').bind('click', gameLoop.start);
+			
+			// It's a good idea to stop the game when the user doesn't see it anyway
+			$(window).bind('blur',  gameLoop.stop);
+			$(window).bind('focus', gameLoop.start);
+
+			// Add event handlers for your gameWorld's function
+			$('#directionLeft').bind('click',  function() { if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(1); } } );
+			$('#directionRight').bind('click', function() { if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(2); } } );
+			$('#directionUp').bind('click',    function() { if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(3); } } );
+			$('#directionDown').bind('click',  function() { if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(4); } } );
+    	});
+	</script>
+
+</head>
+<body>
+
+	<h1>jQuery Game Loop<br/><span style="font-size: 0.8em;">and Super Lightweight HTML5 Game Engine</span></h2>
+
+	<div class="description">
+ 		<b>This GameLoop maintains a constant game speed with maximum FPS.</b>
+ 		<br/><br/>
+		On slow hardware, the display FPS will drop, but the game will maintain the tick frequency and will provide that to your game world.<br/>
+ 		The game runs seamlessly on fast hardware, with the maximum FPS you have set.
+		<br/><br>
+		This is a demo page and some install instructions; the newest live demo will always be <a href="http://wimagguc.hu/projects/jquery-game-loop-and-game-engine/">here</a>.
+		<br/>
+		For the fresh code and to see how amazingly free it is, <a href="https://github.com/wimagguc/jquery-game-loop-and-game-engine">go to Github</a>.
+		<br/>
+		Also, you might find other interesting things on my blog at <a href="http://wimagguc.hu/">wimagguc.hu</a>.<br/>
+	</div>
+
+	<H2>Demo</H2>
+
+	<div class="description">
+		Use the buttons or the W, A, S, D keys to change direction.
+	</div>
+
+	<section class="gameDemo">
+		<div class="gameContainer">
+
+			<!-- My world needs a container to be initialized on >>> -->
+			<div id="demoWorldContainer"></div>
+			<!-- ^^^ -->
+
+
+			<br/>
+	
+			<button id="startButton">Start</button>
+			<button id="stopButton">Stop</button>
+			
+			<button class="direction" id="directionLeft">Left</button>
+			<button class="direction" id="directionRight">Right</button>
+			<button class="direction" id="directionUp">Up</button>
+			<button class="direction" id="directionDown">Down</button>
+
+		</div>
+	</section>
+
+	<H2>Install</H2>
+
+	<div class="description">
+		This package contains the Game Loop and a sample Game World that you can use to develop your game.
+		<br/><br/>
+		Your Game World object maintains all the states and entities of your game. In this there have to be
+		three main functions to:
+		<ul>
+			<li>update the game (with n tick)</li> 
+			<li>display the game's actual state</li>
+			<li>handle user input</li>
+		</ul>
+		<br/>
+		The Game Loop provides a cycle that will call the world's update and display functions with the FPS set.
+		<br/><br/> 
+		To install this package and create your game, you will need the following:
+		<ul>
+			<li>The HTML5 canvas your graphics will be displayed on</li> 
+			<li>A game world object that describes all the states and entities of your game</li>
+			<li>A game loop started and set up to work with your game</li>
+		</ul>
+	</div>
+
+	<H2>Install 1/3: create the Game Loop and the Game World objects</H2>
+
+	<div class="description">
+		My Game World needs two more classes: the CanvasHandler handles all canvas functions (eg. creating it and drawing the objects onto),
+		whereas the Entities is a helper object to describe Pacman and Directions.<br/><br/>
+		Create the gameLoop and demoWorld objects (note that the FPS is set to 25). After the document has been loaded, you are safe 
+		to start the gameLoop. 
+	</div>
+
+	<div class="code">
+<pre>
+&lt;script src="./js/wimagguc-gameloop.js"&gt;&lt;/script&gt;
+&lt;script src="./js/wimagguc-pacman-entities.js"&gt;&lt;/script&gt;
+&lt;script src="./js/wimagguc-world-demo-canvashandler.js"&gt;&lt;/script&gt;
+&lt;script src="./js/wimagguc-world-demo.js"&gt;&lt;/script&gt;
+&lt;script type="text/javascript"&gt;
+  // To initialize the game you need:
+  // - The gameLoop object that controls the game
+  // - Your object the contains all the information of the world
+  var gameLoop  = new Wimagguc.GameLoop(25);
+  var demoWorld = new Wimagguc.DemoWorld();
+
+  $( document).ready( function() {
+    // Start the gameLoop; it will create an ID when it starts for the
+    // first time
+    var gameLoopID = gameLoop.start();
+    
+    // Initialize the world with the ID from the gameLoop so that you
+    // can use multiple worlds with the same loop on the same page
+    demoWorld.init('demoWorldContainer', gameLoopID, 25);
+  });
+&lt;/script&gt;
+</pre>
+	</div>
+
+	<H2>Install 2/3: HTML5 canvas setup</H2>
+
+	<div class="description">
+		The HTML5 canvas is the field the game will be displayed on. Place an empty div somewhere on the screen. You can use CSS
+		to make this container prettier (the actual canvas will be attached to this object).
+	</div>
+
+	<div class="code">
+<pre>
+&lt;div id="demoWorldContainer"&gt;&lt;/div&gt;
+</pre>
+	</div>
+
+	<div class="description">
+		Internet Explorer also needs a helper object for canvas support.
+	</div>
+
+	<div class="code">
+<pre>
+&lt;!--[if IE]&gt;
+&lt;script type="text/javascript" src="../excanvas.js"&gt;&lt;/script&gt;
+&lt;![endif]--&gt;
+</pre>
+	</div>
+
+	<H2>Install 3/3: add extra buttons and event handlers for user input</H2>
+
+	<div class="description">
+		I added some buttons: start/stop, left/right/up/down, for the game controls.<br/>
+		The JS can be added the same place you create the gameLoop and gameWorld objects; the buttons go wherever they belong to in the HTML.
+	</div>	
+
+	<div class="code">
+<pre>
+&lt;script type="text/javascript"&gt;
+  $( document).ready( function() {
+    // Add event handlers for the buttons to start and stop the game loop
+    $('#stopButton').bind('click',  gameLoop.stop);
+    $('#startButton').bind('click', gameLoop.start);
+			
+    // It's a good idea to stop the game when the user doesn't see it anyway
+    $(window).bind('blur',  gameLoop.stop);
+    $(window).bind('focus', gameLoop.start);
+
+    // Add event handlers for your gameWorld's function
+    $('#directionLeft').bind('click', function() {
+      if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(1); }
+    });
+    
+    $('#directionRight').bind('click', function() {
+      if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(2); }
+    });
+	
+    $('#directionUp').bind('click', function() {
+      if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(3); }
+    });
+    
+    $('#directionDown').bind('click', function() {
+      if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(4); }
+    });
+
+  });
+&lt;/script&gt;
+</pre>
+	</div>
+
+	<div class="code">
+<pre>
+&lt;button id="startButton"&gt;Start&lt;/button&gt;
+&lt;button id="stopButton"&gt;Stop&lt;/button&gt;
+			
+&lt;button class="direction" id="directionLeft"&gt;Left&lt;/button&gt;
+&lt;button class="direction" id="directionRight"&gt;Right&lt;/button&gt;
+&lt;button class="direction" id="directionUp"&gt;Up&lt;/button&gt;
+&lt;button class="direction" id="directionDown"&gt;Down&lt;/button&gt;
+</pre>
+	</div>
+
+	<H2>Lincense</H2>
+
+	<div class="description">
+		Use it as is. Show me if you did something cool.
+		<br/><br/>
+		This code uses the jQuery Javascript library. To read more about it, go to <a href="http://jquery.com/">jquery.com</a>
+	</div>
+
+	<H2>Me</H2>
+
+	<div class="description">
+		Richard Dancsi
+		<br/>
+		blog: <a href="http://wimagguc.hu/">wimagguc.hu</a>
+		<br/>
+		linkedin: <a href="http://linkedin.com/in/richarddancsi">richarddancsi</a>
+		<br/>
+		twitter: <a href="http://twitter.com/wmguk">@wmguk</a>
+		<br/><br/>
+		Zenfield Ltd.
+		<br/>
+		web: <a href="http://zenfield.com/">zenfield.com</a>
+	</div>
+
+</body>
+</html>
