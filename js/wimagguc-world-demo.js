@@ -32,7 +32,7 @@ Wimagguc.DemoWorld = (function() {
 			name  : 'P',
 			x     : 50,
 			y     : 120,
-			speed : 1.9,
+			speed : 0.11,
 			size  : 10
 		})
 	};
@@ -68,7 +68,7 @@ Wimagguc.DemoWorld = (function() {
 			if (_self.vars.gameLoopID != params.gameID) { return; } // Check if this event is for another World
 
 			// Count how many ticks elapsed since last update; maybe we need to update the world with multiple or no ticks. 
-			var ticksElapsed = Math.round( (params.currentGameTick - _self.vars.lastTick) / 1000 );
+			var ticksElapsed = Math.round( (params.currentGameTick - _self.vars.lastTick));
 			_self.vars.lastTick = params.currentGameTick;
 
 			// Update the position of pacman

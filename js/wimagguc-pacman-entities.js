@@ -59,8 +59,6 @@ Wimagguc.PacmanEntity = (function() {
 			functions.setDirection = function(direction) { entity.direction = direction; }
 
 			functions.shiftAnimationPhase = function(ticks, frameRate) {
-				var speed = 3;
-				frameRate = frameRate / speed;
 				var maxPhase;
 
 				if (entity.direction == publicFunc.Direction.RIGHT) {
@@ -69,11 +67,11 @@ Wimagguc.PacmanEntity = (function() {
 					maxPhase = entity.anim_left_max;
 				}
 
-				entity.anim_curr_ticks += (maxPhase / frameRate);
+				entity.anim_curr_ticks += ticks / frameRate * 7;
 				
-				if (entity.anim_curr_ticks > frameRate) { entity.anim_curr_ticks = 1; } 
+				if (entity.anim_curr_ticks > frameRate) { entity.anim_curr_ticks = 1; }
 
-				entity.anim_curr_phase = Math.round(entity.anim_curr_ticks * maxPhase / frameRate);
+				entity.anim_curr_phase = Math.round(entity.anim_curr_ticks / frameRate * maxPhase);
 
 				if (entity.anim_curr_phase > maxPhase) { entity.anim_curr_phase = 1; }
 				if (entity.anim_curr_phase < 1) { entity.anim_curr_phase = 1; }

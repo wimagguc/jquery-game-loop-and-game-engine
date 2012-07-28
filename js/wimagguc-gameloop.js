@@ -29,7 +29,7 @@
  *   displayGame > to trigger your World's display function; params: {gameID, currentGameTick}
  *
  * Initialize
- *   TICKS_PER_SECONDS is the max FPS you want to support. Set the MAX_REFRESH_RATE accordingly,
+ *   FRAME_PER_SECONDS is the max FPS you want to support. Set the MAX_REFRESH_RATE accordingly,
  *   to provide the best experience
  *
  * ------------------- 
@@ -41,20 +41,20 @@
  */
 var Wimagguc = this.Wimagguc || {};
 
-Wimagguc.GameLoop = (function(TICKS_PER_SECOND) {
+Wimagguc.GameLoop = (function(FRAME_PER_SECOND) {
 
 	var _self = this;
 
 	// SETUP
 	_self.params = {
-	    'MAX_REFRESH_RATE' : 20		// Milliseconds. The game will run no faster than this; set it according to the supported devices
+	    'MAX_REFRESH_RATE' : (1000 / 2 / FRAME_PER_SECOND) // Milliseconds. The game will run no faster than this; set it according to the supported devices
 	};
 
 	///////////////////////////////////////////////////////////////////////////////////////////////
 	// PARAMETERS USED BY THIS CLASS (should not be modified)
 	_self.vars = {
 		'start_game_time' : new Date().getTime(),
-	    'skip_milliseconds' : (1000 / TICKS_PER_SECOND),
+	    'skip_milliseconds' : (1000 / FRAME_PER_SECOND),
 	    'is_running' : false,
 	    'next_game_tick' : 0,
 	    'last_paused_at' : 0,
@@ -69,12 +69,14 @@ Wimagguc.GameLoop = (function(TICKS_PER_SECOND) {
 		_self.pauseCount();
 
 		if (_self.vars.is_running) {
-			var currentGameTick = (new Date().getTime() - _self.vars.start_game_time - _self.vars.all_paused_time) * _self.vars.skip_milliseconds;
+			var gameStartTick   = _self.vars.start_game_time - _self.vars.all_paused_time;
+			var currentGameTick = new Date().getTime() - gameStartTick;
 
 	        if ( currentGameTick > _self.vars.next_game_tick) {
+				_self.countRealFPS();
 	            _self.updateGame(currentGameTick);
-	            _self.vars.next_game_tick += _self.vars.skip_milliseconds;
 				_self.displayGame(currentGameTick);
+				_self.vars.next_game_tick = _self.vars.skip_milliseconds * (Math.floor(currentGameTick / _self.vars.skip_milliseconds) + 1);
 	    	}
 
    			setTimeout(function(){ _self.gameLoop() }, _self.params.MAX_REFRESH_RATE);
@@ -97,6 +99,19 @@ Wimagguc.GameLoop = (function(TICKS_PER_SECOND) {
 		if (!_self.vars.is_running && !_self.vars.last_paused_at) {
 			 _self.vars.last_paused_at = new Date().getTime();
 		}
+	};
+	
+	// FUNCTION TO COUNT THE CURRENT VISIBLE SPEED OF THE GAME
+	_self.countRealFPS = function() {
+		var currentSeconds = Math.floor(new Date().getTime() / 1000);
+		if (_self.vars.real_fps_second == currentSeconds) {
+			_self.vars.real_fps_ticks++;
+		} else {
+			_self.vars.real_fps_currentValue = _self.vars.real_fps_ticks; 
+			_self.vars.real_fps_ticks = 0;
+		}
+		_self.vars.real_fps_second = currentSeconds;
+		$('#realFPSDump').text(_self.vars.real_fps_currentValue);
 	};
 
 	// FUNCTION TO UPDATE GAME

@@ -28,7 +28,8 @@
 		// To initialize the game you need:
 		// - The gameLoop object that controls the game
 		// - Your object the contains all the information of the world
-		var gameLoop  = new Wimagguc.GameLoop(25);
+		var frameRate = 50;
+		var gameLoop  = new Wimagguc.GameLoop(frameRate);
 		var demoWorld = new Wimagguc.DemoWorld();
 
 	    $( document).ready( function() {
@@ -36,7 +37,7 @@
 			var gameLoopID = gameLoop.start();
 
 			// Initialize the world with the ID from the gameLoop so that you can use multiple worlds with the same loop on the same page
-			demoWorld.init('demoWorldContainer', gameLoopID, 25);
+			demoWorld.init('demoWorldContainer', gameLoopID, frameRate);
 
 			// Add event handlers for the buttons to start and stop the game loop
 			$('#stopButton').bind('click',  gameLoop.stop);
