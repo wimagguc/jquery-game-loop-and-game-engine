@@ -10,7 +10,7 @@ The game runs seamlessly on fast hardware, with the maximum FPS you have set.
 INSTALL
 =======
 
-To see a live demo, go to: http://wimagguc.hu/projects/jquery-game-loop-and-game-engine/
+To see a live demo, go to: http://www.wimagguc.com/projects/jquery-game-loop-and-game-engine/
 
 This package contains the Game Loop and a sample Game World that you can use to develop your game.
 
@@ -36,9 +36,10 @@ ABOUT
 =====
 
 Richard Dancsi
-blog: http://wimagguc.hu/
-twitter: http://twitter.com/wmguk
+blog: http://www.wimagguc.com/
+twitter: http://twitter.com/wimagguc
 linkedin: http://linkedin.com/in/richarddancsi
+gplus: https://plus.google.com/u/0/115939246085616544919
 
 Zenfield Ltd.
 http://zenfield.com/
