@@ -26,6 +26,9 @@ For install instructions, see `demo.html` in this package.
 
 I added a playable, one-level version of pacman to the /pacman folder, written in jQuery, using this game engine. It has no monsters yet, all you can do is to collect the dots :)
 
+To try it out live, go to:
+[www.wimagguc.com/projects/jquery-game-loop-and-game-engine/pacman/](http://www.wimagguc.com/projects/jquery-game-loop-and-game-engine/pacman/)
+
 This is for demonstration purposes only, to show how the game loop can be used for creating an actual game. If you want to use the code, feel free to do so - but please be aware that you probably need a license to publish such a game.
 
 ## License
