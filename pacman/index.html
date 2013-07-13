@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<!--
+	A JQUERY GAME LOOP AND GAME ENGINE
+	by Richard Dancsi
+	- - - - - - - - - - - - - - - - - - - 
+	GAMELOOP DEMO & INSTALL
+	http://www.wimagguc.com/projects/jquery-game-loop-and-game-engine/
+	
+	PACMAN DEMO
+	http://www.wimagguc.com/projects/jquery-game-loop-and-game-engine/pacman/
+	- - - - - - - - - - - - - - - - - - - 
+	wimagguc.com
+	twitter.com/wimagguc
+-->
+<html xmlns='http://www.w3.org/1999/xhtml'>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Pacman (built on the jQuery GameLoop and Super Lightweight HTML5 Game Engine, by Wimagguc)</title>
+	<link rel="stylesheet" type="text/css" href="./css/demo.css" />
+
+	<!-- IE needs a canvas handler JS for the canvas -->
+    <!--[if IE]><script type="text/javascript" src="../js/excanvas.js"></script><![endif]-->
+
+    <script type="text/javascript" src="../js/jquery.min-1.4.2.js"></script>
+
+    <script type="text/javascript" src="../js/wimagguc-gameloop.js"></script>
+
+    <script type="text/javascript" src="./js/wimagguc-pacman-entities.js"></script>
+    <script type="text/javascript" src="./js/wimagguc-world-pacman.js"></script>
+    <script type="text/javascript" src="./js/wimagguc-world-pacman-canvashandler.js"></script>
+    <script type="text/javascript">
+		// To initialize the game you need:
+		// - The gameLoop object that controls the game
+		// - Your object the contains all the information of the world
+		var frameRate    = 50;
+		var gameLoop     = new Wimagguc.GameLoop(frameRate);
+		var demoWorld    = new Wimagguc.DemoWorld();
+
+	    $( document).ready( function() {
+			// Start the gameLoop; it will create an ID when it starts for the first time
+			var gameLoopID = gameLoop.start();
+
+			// Initialize the world with the ID from the gameLoop so that you can use multiple worlds with the same loop 
+			demoWorld.init('demoWorldContainer', gameLoopID, frameRate);
+
+			// Add event handlers for the buttons to start and stop the game loop
+			$('#stopButton').bind('click',  gameLoop.stop);
+			$('#startButton').bind('click', gameLoop.start);
+			
+			// It's a good idea to stop the game when the user doesn't see it anyway
+			$(window).bind('blur',  gameLoop.stop);
+			$(window).bind('focus', gameLoop.start);
+
+			// Add event handlers for your gameWorld's function
+			$('#directionLeft').bind('click',  function() { if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(1); } } );
+			$('#directionRight').bind('click', function() { if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(2); } } );
+			$('#directionUp').bind('click',    function() { if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(3); } } );
+			$('#directionDown').bind('click',  function() { if (gameLoop.isRunning()) { demoWorld.directionChangeWithButtons(4); } } );
+    	});
+	</script>
+
+</head>
+<body>
+
+	<!-- My world needs a container to be initialized on >>> -->
+	<section>
+		<div id="demoWorldContainer"></div>
+	</section>
+	<!-- ^^^ -->
+
+	<br/><br/>
+
+	<button id="startButton">Start</button>
+	<button id="stopButton">Stop</button>
+
+	<button class="direction" id="directionLeft">Left</button>
+	<button class="direction" id="directionRight">Right</button>
+	<button class="direction" id="directionUp">Up</button>
+	<button class="direction" id="directionDown">Down</button>
+
+	(visible frame rate: <span id="realFPSDump"></span>)
+
+</body>
+</html>
