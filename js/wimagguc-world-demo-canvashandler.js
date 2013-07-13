@@ -1,18 +1,21 @@
 /**
  * 	
- * This is a helper object for the demo game world: handles all canvas related functions (create
- * canvas, clear canvas, draw pacman to canvas)
+ * This is a helper object for the pacman game world: handles all canvas related functions (create
+ * canvas, clear canvas, draw pacman to canvas etc)
  * 
- * -------------------
+ * ------------------- 
  * A JQUERY GAME LOOP AND SUPER LIGHTWEIGHT GAME ENGINE
- * -------------------
- * DEMO & INSTALL
- * http://wimagguc.hu/projects/jquery-game-loop-and-game-engine/
- * -------------------
+ * ------------------- 
+ * GAMELOOP DEMO & INSTALL
+ * http://www.wimagguc.com/projects/jquery-game-loop-and-game-engine/
+ *	
+ * PACMAN DEMO
+ * http://www.wimagguc.com/projects/jquery-game-loop-and-game-engine/pacman/
+ * ------------------- 
  * By Richard Dancsi in 2012
- * blog: wimagguc.hu, twitter: @wmguk
+ * blog: www.wimagguc.com, twitter: @wimagguc
  * License: use it as is. Show me if you did something cool.
- * -------------------
+ * ------------------- 
  */
 var Wimagguc = this.Wimagguc || {};
 

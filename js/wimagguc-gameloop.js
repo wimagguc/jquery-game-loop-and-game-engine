@@ -12,7 +12,7 @@
  * ------------------- 
  * DEMO & INSTALL
  *
- * http://wimagguc.hu/projects/jquery-game-loop-and-game-engine/
+ * http://www.wimagguc.com/projects/jquery-game-loop-and-game-engine/
  *  
  * ------------------- 
  * USAGE
@@ -34,7 +34,7 @@
  *
  * ------------------- 
  * By Richard Dancsi in 2012
- * blog: wimagguc.hu, twitter: @wmguk
+ * blog: wimagguc.hu, twitter: @wimagguc
  *
  * License: use it as is. Show me if you did something cool.
  * ------------------- 
